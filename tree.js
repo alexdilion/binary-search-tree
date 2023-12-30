@@ -2,20 +2,21 @@
 
 import Node from "./node.js";
 
-export default class BST {
+export default class Tree {
     constructor(array) {
         this.root = this.buildTree(array);
     }
 
     #sortAndDeduplicate(array) {
-        return [...new Set(array)].sort((a, b) => a > b);
+        return [...new Set(array)].sort((a, b) => a - b);
     }
 
     buildTree(array) {
         if (array.length === 0) return null;
 
         const data = this.#sortAndDeduplicate(array);
-        const mid = Math.floor(data.length / 2);
+        const mid = Math.floor((data.length - 1) / 2);
+        console.log(data);
 
         const root = new Node(data[mid]);
         root.left = this.buildTree(data.slice(0, mid));
