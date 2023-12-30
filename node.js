@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
 export default class Node {
-    constructor(data, left = null, right = null) {
-        this.data = data;
-        this.left = left;
+    constructor(value, right = null, left = null) {
+        this.value = value;
         this.right = right;
+        this.left = left;
     }
 }
