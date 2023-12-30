@@ -38,6 +38,19 @@ export default class Tree {
         return node;
     }
 
+    find(value) {
+        let node = this.root;
+        while (value !== node.value) {
+            if (value < node.left) {
+                node = node.left;
+            } else {
+                node = node.right;
+            }
+        }
+
+        return node;
+    }
+
     prettyPrint(node, prefix = "", isLeft = true) {
         if (node === null) {
             return;
