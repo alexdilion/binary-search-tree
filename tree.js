@@ -7,15 +7,15 @@ export default class Tree {
         this.root = this.buildTree(array);
     }
 
-    #sortAndDeduplicate(array) {
+    #deduplicateAndSort(array) {
         return [...new Set(array)].sort((a, b) => a - b);
     }
 
     buildTree(array) {
         if (array.length === 0) return null;
 
-        const data = this.#sortAndDeduplicate(array);
-        const mid = Math.floor((data.length - 1) / 2);
+        const data = this.#deduplicateAndSort(array);
+        const mid = Math.floor(data.length / 2);
 
         const root = new Node(data[mid]);
         root.left = this.buildTree(data.slice(0, mid));
@@ -24,28 +24,51 @@ export default class Tree {
         return root;
     }
 
-    insert(value, node = this.root) {
+    insert(node, value) {
         if (!node) return new Node(value);
 
-        if (value === node.value) {
-            return node;
-        } else if (value < node.value) {
-            node.left = this.insert(value, node.left);
-        } else if (value > node.value) {
-            node.right = this.insert(value, node.right);
+        if (node.value < value) {
+            node.right = this.insert(node.right, value);
+        } else if (node.value > value) {
+            node.left = this.insert(node.left, value);
         }
 
         return node;
     }
 
-    find(value) {
-        let node = this.root;
-        while (value !== node.value) {
-            if (value < node.left) {
-                node = node.left;
-            } else {
-                node = node.right;
+    #findMinValue(node) {
+        let minNode = node;
+
+        while (minNode.left) {
+            minNode = minNode.left;
+        }
+
+        return minNode;
+    }
+
+    delete(node, value) {
+        if (!node) return null;
+
+        if (node.value < value) {
+            node.right = this.delete(node.right, value);
+        } else if (node.value > value) {
+            node.left = this.delete(node.left, value);
+        } else {
+            if (!node.left) {
+                const temp = node.right;
+                node = null;
+                return temp;
+            } else if (!node.right) {
+                const temp = node.left;
+                node = null;
+                return temp;
             }
+
+            let temp = this.#findMinValue(node.right);
+            node.value = temp.value;
+            node.right = this.delete(node.right, temp.value);
+
+            return node;
         }
 
         return node;
@@ -56,13 +79,13 @@ export default class Tree {
             return;
         }
 
-        if (node.right !== null) {
+        if (node.right) {
             this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
         }
 
         console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
 
-        if (node.left !== null) {
+        if (node.left) {
             this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
         }
     }
