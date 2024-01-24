@@ -24,13 +24,13 @@ export default class Tree {
         return root;
     }
 
-    insert(root, value) {
-        if (!root) return new Node(value);
+    insert(root, key) {
+        if (!root) return new Node(key);
 
-        if (root.value < value) {
-            root.right = this.insert(root.right, value);
-        } else if (root.value > value) {
-            root.left = this.insert(root.left, value);
+        if (root.key < key) {
+            root.right = this.insert(root.right, key);
+        } else if (root.key > key) {
+            root.left = this.insert(root.left, key);
         }
 
         return root;
@@ -46,13 +46,13 @@ export default class Tree {
         return minNode;
     }
 
-    delete(root, value) {
+    delete(root, key) {
         if (!root) return root;
 
-        if (root.value < value) {
-            root.right = this.delete(root.right, value);
-        } else if (root.value > value) {
-            root.left = this.delete(root.left, value);
+        if (root.key < key) {
+            root.right = this.delete(root.right, key);
+        } else if (root.key > key) {
+            root.left = this.delete(root.left, key);
         } else {
             if (!root.left) {
                 const temp = root.right;
@@ -65,8 +65,8 @@ export default class Tree {
             }
 
             let temp = this.#findMinValue(root.right);
-            root.value = temp.value;
-            root.right = this.delete(root.right, temp.value);
+            root.key = temp.key;
+            root.right = this.delete(root.right, temp.key);
 
             return root;
         }
@@ -74,13 +74,13 @@ export default class Tree {
         return root;
     }
 
-    find(root, value) {
-        if (!root || root.value === value) return root;
+    find(root, key) {
+        if (!root || root.key === key) return root;
 
-        if (root.value < value) {
-            root = this.find(root.right, value);
+        if (root.key < key) {
+            root = this.find(root.right, key);
         } else {
-            root = this.find(root.left, value);
+            root = this.find(root.left, key);
         }
 
         return root;
@@ -95,7 +95,7 @@ export default class Tree {
             this.prettyPrint(root.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
         }
 
-        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${root.value}`);
+        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${root.key}`);
 
         if (root.left) {
             this.prettyPrint(root.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
