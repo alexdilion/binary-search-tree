@@ -24,20 +24,20 @@ export default class Tree {
         return root;
     }
 
-    insert(node, value) {
-        if (!node) return new Node(value);
+    insert(root, value) {
+        if (!root) return new Node(value);
 
-        if (node.value < value) {
-            node.right = this.insert(node.right, value);
-        } else if (node.value > value) {
-            node.left = this.insert(node.left, value);
+        if (root.value < value) {
+            root.right = this.insert(root.right, value);
+        } else if (root.value > value) {
+            root.left = this.insert(root.left, value);
         }
 
-        return node;
+        return root;
     }
 
-    #findMinValue(node) {
-        let minNode = node;
+    #findMinValue(root) {
+        let minNode = root;
 
         while (minNode.left) {
             minNode = minNode.left;
@@ -46,47 +46,47 @@ export default class Tree {
         return minNode;
     }
 
-    delete(node, value) {
-        if (!node) return null;
+    delete(root, value) {
+        if (!root) return null;
 
-        if (node.value < value) {
-            node.right = this.delete(node.right, value);
-        } else if (node.value > value) {
-            node.left = this.delete(node.left, value);
+        if (root.value < value) {
+            root.right = this.delete(root.right, value);
+        } else if (root.value > value) {
+            root.left = this.delete(root.left, value);
         } else {
-            if (!node.left) {
-                const temp = node.right;
-                node = null;
+            if (!root.left) {
+                const temp = root.right;
+                root = null;
                 return temp;
-            } else if (!node.right) {
-                const temp = node.left;
-                node = null;
+            } else if (!root.right) {
+                const temp = root.left;
+                root = null;
                 return temp;
             }
 
-            let temp = this.#findMinValue(node.right);
-            node.value = temp.value;
-            node.right = this.delete(node.right, temp.value);
+            let temp = this.#findMinValue(root.right);
+            root.value = temp.value;
+            root.right = this.delete(root.right, temp.value);
 
-            return node;
+            return root;
         }
 
-        return node;
+        return root;
     }
 
-    prettyPrint(node, prefix = "", isLeft = true) {
-        if (node === null) {
+    prettyPrint(root, prefix = "", isLeft = true) {
+        if (root === null) {
             return;
         }
 
-        if (node.right) {
-            this.prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+        if (root.right) {
+            this.prettyPrint(root.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
         }
 
-        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
+        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${root.value}`);
 
-        if (node.left) {
-            this.prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+        if (root.left) {
+            this.prettyPrint(root.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
         }
     }
 }
