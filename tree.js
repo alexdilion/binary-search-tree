@@ -47,7 +47,7 @@ export default class Tree {
     }
 
     delete(root, value) {
-        if (!root) return null;
+        if (!root) return root;
 
         if (root.value < value) {
             root.right = this.delete(root.right, value);
@@ -69,6 +69,18 @@ export default class Tree {
             root.right = this.delete(root.right, temp.value);
 
             return root;
+        }
+
+        return root;
+    }
+
+    find(root, value) {
+        if (!root || root.value === value) return root;
+
+        if (root.value < value) {
+            root = this.find(root.right, value);
+        } else {
+            root = this.find(root.left, value);
         }
 
         return root;
