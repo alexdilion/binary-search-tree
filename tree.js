@@ -108,9 +108,17 @@ export default class Tree {
         if (!root) return;
 
         callback(root);
-        
+
         queue.push(...this.#getChildNodes(root));
         this.recursiveLevelOrder(queue.shift(), callback, queue);
+    }
+
+    inOrder(root, callback) {
+        if (!root) return;
+
+        this.inOrder(root.left, callback);
+        callback(root);
+        this.inOrder(root.right, callback);
     }
 
     prettyPrint(root, prefix = "", isLeft = true) {
