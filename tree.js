@@ -104,6 +104,15 @@ export default class Tree {
         }
     }
 
+    recursiveLevelOrder(root, callback, queue = []) {
+        if (!root) return;
+
+        callback(root);
+        
+        queue.push(...this.#getChildNodes(root));
+        this.recursiveLevelOrder(queue.shift(), callback, queue);
+    }
+
     prettyPrint(root, prefix = "", isLeft = true) {
         if (!root) {
             return;
