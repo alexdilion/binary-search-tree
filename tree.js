@@ -137,6 +137,15 @@ export default class Tree {
         callback(root);
     }
 
+    height(root) {
+        if (!root) return -1;
+
+        let leftHeight = this.height(root.left);
+        let rightHeight = this.height(root.right);
+
+        return leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1;
+    }
+
     prettyPrint(root, prefix = "", isLeft = true) {
         if (!root) {
             return;
