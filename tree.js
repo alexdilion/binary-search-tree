@@ -129,6 +129,14 @@ export default class Tree {
         this.inOrder(root.right, callback);
     }
 
+    postOrder(root, callback) {
+        if (!root) return;
+
+        this.postOrder(root.left, callback);
+        this.postOrder(root.right, callback);
+        callback(root);
+    }
+
     prettyPrint(root, prefix = "", isLeft = true) {
         if (!root) {
             return;
