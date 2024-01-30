@@ -113,6 +113,14 @@ export default class Tree {
         this.recursiveLevelOrder(queue.shift(), callback, queue);
     }
 
+    preOrder(root, callback) {
+        if (!root) return;
+
+        callback(root);
+        this.preOrder(root.left, callback);
+        this.preOrder(root.right, callback);
+    }
+
     inOrder(root, callback) {
         if (!root) return;
 
