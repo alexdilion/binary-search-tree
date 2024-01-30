@@ -55,18 +55,18 @@ export default class Tree {
             root.left = this.delete(root.left, key);
         } else {
             if (!root.left) {
-                const temp = root.right;
+                const tmp = root.right;
                 root = null;
-                return temp;
+                return tmp;
             } else if (!root.right) {
-                const temp = root.left;
+                const tmp = root.left;
                 root = null;
-                return temp;
+                return tmp;
             }
 
-            let temp = this.#findMinValue(root.right);
-            root.key = temp.key;
-            root.right = this.delete(root.right, temp.key);
+            let tmp = this.#findMinValue(root.right);
+            root.key = tmp.key;
+            root.right = this.delete(root.right, tmp.key);
 
             return root;
         }
@@ -86,8 +86,26 @@ export default class Tree {
         return root;
     }
 
+    #getChildNodes(node) {
+        const children = [];
+        if (node.left) children.push(node.left);
+        if (node.right) children.push(node.right);
+        return children;
+    }
+
+    iterativeLevelOrder(callback) {
+        const nodeQueue = [this.root];
+
+        while (nodeQueue.length !== 0) {
+            const node = nodeQueue.shift();
+            callback(node);
+
+            nodeQueue.push(...this.#getChildNodes(node));
+        }
+    }
+
     prettyPrint(root, prefix = "", isLeft = true) {
-        if (root === null) {
+        if (!root) {
             return;
         }
 
