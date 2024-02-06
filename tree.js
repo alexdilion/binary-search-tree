@@ -36,7 +36,7 @@ export default class Tree {
         return root;
     }
 
-    #findMinValue(root) {
+    #findMinkey(root) {
         let minNode = root;
 
         while (minNode.left) {
@@ -64,7 +64,7 @@ export default class Tree {
                 return tmp;
             }
 
-            let tmp = this.#findMinValue(root.right);
+            let tmp = this.#findMinkey(root.right);
             root.key = tmp.key;
             root.right = this.delete(root.right, tmp.key);
 
@@ -144,6 +144,22 @@ export default class Tree {
         let rightHeight = this.height(root.right);
 
         return leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1;
+    }
+
+    depth(root, target, depth = 0) {
+        if (!target || !target) {
+            return -1;
+        } else {
+            if (root.key === target.key) return 0;
+
+            if (root.key > target.key) {
+                depth = this.depth(root.left, target, depth) + 1;
+            } else {
+                depth = this.depth(root.right, target, depth) + 1;
+            }
+
+            return depth;
+        }
     }
 
     prettyPrint(root, prefix = "", isLeft = true) {
