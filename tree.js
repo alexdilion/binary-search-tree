@@ -36,7 +36,7 @@ export default class Tree {
         return root;
     }
 
-    #findMinkey(root) {
+    #findMinKey(root) {
         let minNode = root;
 
         while (minNode.left) {
@@ -64,7 +64,7 @@ export default class Tree {
                 return tmp;
             }
 
-            let tmp = this.#findMinkey(root.right);
+            let tmp = this.#findMinKey(root.right);
             root.key = tmp.key;
             root.right = this.delete(root.right, tmp.key);
 
@@ -86,10 +86,10 @@ export default class Tree {
         return root;
     }
 
-    #getChildNodes(node) {
+    #getChildNodes(root) {
         const children = [];
-        if (node.left) children.push(node.left);
-        if (node.right) children.push(node.right);
+        if (root.left) children.push(root.left);
+        if (root.right) children.push(root.right);
         return children;
     }
 
@@ -177,6 +177,21 @@ export default class Tree {
         }
 
         return false;
+    }
+
+    #getTreeKeys(root, keys = []) {
+        if (!root) return;
+
+        this.#getTreeKeys(root.left, keys);
+        keys.push(root.key);
+        this.#getTreeKeys(root.right, keys);
+
+        return keys;
+    }
+
+    rebalance() {
+        const keys = this.#getTreeKeys(this.root);
+        this.root = this.buildTree(keys);
     }
 
     prettyPrint(root, prefix = "", isLeft = true) {
