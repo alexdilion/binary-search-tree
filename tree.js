@@ -162,6 +162,23 @@ export default class Tree {
         }
     }
 
+    isBalanced(root) {
+        if (!root) return 1;
+
+        let leftHeight = this.height(root.left);
+        let rightHeight = this.height(root.right);
+
+        if (
+            Math.abs(leftHeight - rightHeight) <= 1 &&
+            this.isBalanced(root.left) &&
+            this.isBalanced(root.right)
+        ) {
+            return true;
+        }
+
+        return false;
+    }
+
     prettyPrint(root, prefix = "", isLeft = true) {
         if (!root) {
             return;
