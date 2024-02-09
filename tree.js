@@ -93,15 +93,23 @@ export default class Tree {
         return children;
     }
 
-    iterativeLevelOrder(callback) {
+    iterativeLevelOrder(callback = null) {
         const nodeQueue = [this.root];
+        const keys = [];
 
         while (nodeQueue.length !== 0) {
             const node = nodeQueue.shift();
-            callback(node);
+
+            if (callback) {
+                callback(node);
+            } else {
+                keys.push(node.key);
+            }
 
             nodeQueue.push(...this.#getChildNodes(node));
         }
+
+        return keys;
     }
 
     recursiveLevelOrder(root, callback, queue = []) {
