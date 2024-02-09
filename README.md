@@ -1,6 +1,6 @@
 # TOP Binary Search Tree
 
-My JavaScript implementation of a binary search tree data structure for a TOP project.
+My JavaScript implementation of the binary search tree data structure for a TOP project.
 
 ![Binary Search Tree](header.png)
 
