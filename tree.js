@@ -166,19 +166,16 @@ export default class Tree {
     }
 
     depth(target, root = this.root, depth = 0) {
-        if (!target || !target) {
-            return -1;
+        if (!target || !target) return -1;
+        if (root.value === target.value) return 0;
+
+        if (root.value > target.value) {
+            depth = this.depth(target, root.left, depth) + 1;
         } else {
-            if (root.value === target.value) return 0;
-
-            if (root.value > target.value) {
-                depth = this.depth(target, root.left, depth) + 1;
-            } else {
-                depth = this.depth(target, root.right, depth) + 1;
-            }
-
-            return depth;
+            depth = this.depth(target, root.right, depth) + 1;
         }
+
+        return depth;
     }
 
     isBalanced(root = this.root) {
