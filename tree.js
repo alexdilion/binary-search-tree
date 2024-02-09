@@ -195,18 +195,8 @@ export default class Tree {
         return false;
     }
 
-    #getTreeKeys(root, keys = []) {
-        if (!root) return;
-
-        this.#getTreeKeys(root.left, keys);
-        keys.push(root.key);
-        this.#getTreeKeys(root.right, keys);
-
-        return keys;
-    }
-
     rebalance() {
-        const keys = this.#getTreeKeys(this.root);
+        const keys = this.inOrder(this.root);
         this.root = this.buildTree(keys);
     }
 
