@@ -35,55 +35,55 @@ const tree = new Tree(generateRandomArray(9));
 lineBreak();
 
 console.log("Current graph of tree:\n");
-tree.prettyPrint(tree.root);
-console.log(`\nTree is balanced: ${tree.isBalanced(tree.root)}\n`);
+tree.prettyPrint();
+console.log(`\nTree is balanced: ${tree.isBalanced()}\n`);
 
 console.log("Level-order keys:");
-tree.recursiveLevelOrder(tree.root, orderPrettyPrint);
+tree.recursiveLevelOrder(orderPrettyPrint);
 console.log("\n");
 
 console.log("Pre-order keys:");
-tree.preOrder(tree.root, orderPrettyPrint);
+tree.preOrder(orderPrettyPrint);
 console.log("\n");
 
 console.log("In-order keys:");
-tree.inOrder(tree.root, orderPrettyPrint);
+tree.inOrder(orderPrettyPrint);
 console.log("\n");
 
 console.log("Post-order keys:");
-tree.postOrder(tree.root, orderPrettyPrint);
+tree.postOrder(orderPrettyPrint);
 console.log();
 lineBreak();
 
-tree.insert(tree.root, randomNumber(101, 1000));
-tree.insert(tree.root, randomNumber(101, 1000));
-tree.insert(tree.root, randomNumber(101, 1000));
-tree.insert(tree.root, randomNumber(101, 1000));
-tree.insert(tree.root, randomNumber(101, 1000));
+tree.insert(randomNumber(101, 1000));
+tree.insert(randomNumber(101, 1000));
+tree.insert(randomNumber(101, 1000));
+tree.insert(randomNumber(101, 1000));
+tree.insert(randomNumber(101, 1000));
 
 console.log("Inserting numbers greater than 100.. New tree:\n");
-tree.prettyPrint(tree.root);
-console.log(`\nTree is balanced: ${tree.isBalanced(tree.root)}`);
+tree.prettyPrint();
+console.log(`\nTree is balanced: ${tree.isBalanced()}`);
 lineBreak();
 
 console.log("Balancing tree... New tree:\n");
 tree.rebalance();
-tree.prettyPrint(tree.root);
-console.log(`\nTree is balanced: ${tree.isBalanced(tree.root)}\n`);
+tree.prettyPrint();
+console.log(`\nTree is balanced: ${tree.isBalanced()}\n`);
 
 console.log("Level-order keys:");
-tree.recursiveLevelOrder(tree.root, orderPrettyPrint);
+tree.recursiveLevelOrder(orderPrettyPrint);
 console.log("\n");
 
 console.log("Pre-order keys:");
-tree.preOrder(tree.root, orderPrettyPrint);
+tree.preOrder(orderPrettyPrint);
 console.log("\n");
 
 console.log("In-order keys:");
-tree.inOrder(tree.root, orderPrettyPrint);
+tree.inOrder(orderPrettyPrint);
 console.log("\n");
 
 console.log("Post-order keys:");
-tree.postOrder(tree.root, orderPrettyPrint);
+tree.postOrder(orderPrettyPrint);
 console.log();
 lineBreak();

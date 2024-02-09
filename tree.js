@@ -24,13 +24,13 @@ export default class Tree {
         return root;
     }
 
-    insert(root, key) {
+    insert(key, root = this.root) {
         if (!root) return new Node(key);
 
         if (root.key < key) {
-            root.right = this.insert(root.right, key);
+            root.right = this.insert(key, root.right);
         } else if (root.key > key) {
-            root.left = this.insert(root.left, key);
+            root.left = this.insert(key, root.left);
         }
 
         return root;
@@ -46,13 +46,13 @@ export default class Tree {
         return minNode;
     }
 
-    delete(root, key) {
+    delete(key, root = this.root) {
         if (!root) return root;
 
         if (root.key < key) {
-            root.right = this.delete(root.right, key);
+            root.right = this.delete(key, root.right);
         } else if (root.key > key) {
-            root.left = this.delete(root.left, key);
+            root.left = this.delete(key, root.left);
         } else {
             if (!root.left) {
                 const tmp = root.right;
@@ -66,7 +66,7 @@ export default class Tree {
 
             let tmp = this.#findMinKey(root.right);
             root.key = tmp.key;
-            root.right = this.delete(root.right, tmp.key);
+            root.right = this.delete(tmp.key, root.right);
 
             return root;
         }
@@ -74,13 +74,13 @@ export default class Tree {
         return root;
     }
 
-    find(root, key) {
+    find(key, root = this.root) {
         if (!root || root.key === key) return root;
 
         if (root.key < key) {
-            root = this.find(root.right, key);
+            root = this.find(key, root.right);
         } else {
-            root = this.find(root.left, key);
+            root = this.find(key, root.left);
         }
 
         return root;
@@ -108,52 +108,55 @@ export default class Tree {
         if (!callback) return keys;
     }
 
-    recursiveLevelOrder(root, callback = null, queue = [], keys = []) {
+    recursiveLevelOrder(callback = null, root = this.root, queue = [], keys = []) {
         if (!root) return;
 
         callback ? callback(root) : keys.push(root.key);
 
         queue.push(...this.#getChildNodes(root));
-        this.recursiveLevelOrder(queue.shift(), callback, queue, keys);
+
+        // a shift on an empty queue returns undefined causing the function
+        // to assign root back to its default value -> infinite recursive loop
+        this.recursiveLevelOrder(callback, queue.shift() ?? null, queue, keys);
 
         if (!callback) return keys;
     }
 
-    preOrder(root, callback = null, keys = []) {
+    preOrder(callback = null, root = this.root, keys = []) {
         if (!root) return;
 
         callback ? callback(root) : keys.push(root.key);
 
-        this.preOrder(root.left, callback, keys);
-        this.preOrder(root.right, callback, keys);
+        this.preOrder(callback, root.left, keys);
+        this.preOrder(callback, root.right, keys);
 
         if (!callback) return keys;
     }
 
-    inOrder(root, callback = null, keys = []) {
+    inOrder(callback = null, root = this.root, keys = []) {
         if (!root) return;
 
-        this.inOrder(root.left, callback, keys);
+        this.inOrder(callback, root.left, keys);
 
         callback ? callback(root) : keys.push(root.key);
 
-        this.inOrder(root.right, callback, keys);
+        this.inOrder(callback, root.right, keys);
 
         if (!callback) return keys;
     }
 
-    postOrder(root, callback = null, keys = []) {
+    postOrder(callback = null, root = this.root, keys = []) {
         if (!root) return;
 
-        this.postOrder(root.left, callback, keys);
-        this.postOrder(root.right, callback, keys);
+        this.postOrder(callback, root.left, keys);
+        this.postOrder(callback, root.right, keys);
 
         callback ? callback(root) : keys.push(root.key);
 
         if (!callback) return keys;
     }
 
-    height(root) {
+    height(root = this.root) {
         if (!root) return -1;
 
         let leftHeight = this.height(root.left);
@@ -162,23 +165,23 @@ export default class Tree {
         return leftHeight > rightHeight ? leftHeight + 1 : rightHeight + 1;
     }
 
-    depth(root, target, depth = 0) {
+    depth(target, root = this.root, depth = 0) {
         if (!target || !target) {
             return -1;
         } else {
             if (root.key === target.key) return 0;
 
             if (root.key > target.key) {
-                depth = this.depth(root.left, target, depth) + 1;
+                depth = this.depth(target, root.left, depth) + 1;
             } else {
-                depth = this.depth(root.right, target, depth) + 1;
+                depth = this.depth(target, root.right, depth) + 1;
             }
 
             return depth;
         }
     }
 
-    isBalanced(root) {
+    isBalanced(root = this.root) {
         if (!root) return 1;
 
         let leftHeight = this.height(root.left);
@@ -196,11 +199,11 @@ export default class Tree {
     }
 
     rebalance() {
-        const keys = this.inOrder(this.root);
+        const keys = this.inOrder();
         this.root = this.buildTree(keys);
     }
 
-    prettyPrint(root, prefix = "", isLeft = true) {
+    prettyPrint(root = this.root, prefix = "", isLeft = true) {
         if (!root) {
             return;
         }
