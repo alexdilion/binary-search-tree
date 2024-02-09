@@ -2,6 +2,8 @@
 
 My JavaScript implementation of a binary search tree data structure for a TOP project.
 
+![Binary Search Tree](header.png)
+
 ## Project Overview
 
 To create a tree, make an instance of the `Tree` class. An array of integers can be supplied to populate the tree.
