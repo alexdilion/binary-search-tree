@@ -3,7 +3,7 @@
 import Node from "./node.js";
 
 export default class Tree {
-    constructor(array) {
+    constructor(array = []) {
         this.root = this.buildTree(array);
     }
 
@@ -25,6 +25,7 @@ export default class Tree {
     }
 
     insert(value, root = this.root) {
+        if (!this.root) this.root = new Node(value);
         if (!root) return new Node(value);
 
         if (root.value < value) {
@@ -196,8 +197,7 @@ export default class Tree {
     }
 
     rebalance() {
-        const values = this.inOrder();
-        this.root = this.buildTree(values);
+        this.root = this.buildTree(this.inOrder());
     }
 
     prettyPrint(root = this.root, prefix = "", isLeft = true) {
