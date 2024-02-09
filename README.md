@@ -8,8 +8,8 @@ To create a tree, make an instance of the `Tree` class. An array of integers can
 
 The tree has the following public methods:
 
--   `insert()`: Takes a value and adds a node with that value to the tree.
--   `delete()`: Takes a value and removes the node with that value from the tree.
+-   `insert()`: Add a node with the given value to the tree.
+-   `delete()`: Removes a node with the given value.
 -   `find()`: Returns a node with the given value in the tree.
 -   `iterativeLevelOrder()`: Traverses the tree in a breadth-first manner. By default, it returns an array with the values of the tree in level-order. _Can optionally take a callback function, which is invoked on each node in level-order._
 -   `recursiveLevelOrder()`: Same function as `iterativeLevelOrder()` but implemented using recursion. Makes use of a queue to allow us to imitate BFS.
