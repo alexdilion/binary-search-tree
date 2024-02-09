@@ -23,7 +23,7 @@ function generateRandomArray(size) {
 }
 
 function orderPrettyPrint(node) {
-    process.stdout.write(node.key + " ");
+    process.stdout.write(node.value + " ");
 }
 
 function lineBreak() {
@@ -38,19 +38,19 @@ console.log("Current graph of tree:\n");
 tree.prettyPrint();
 console.log(`\nTree is balanced: ${tree.isBalanced()}\n`);
 
-console.log("Level-order keys:");
+console.log("Level-order values:");
 tree.recursiveLevelOrder(orderPrettyPrint);
 console.log("\n");
 
-console.log("Pre-order keys:");
+console.log("Pre-order values:");
 tree.preOrder(orderPrettyPrint);
 console.log("\n");
 
-console.log("In-order keys:");
+console.log("In-order values:");
 tree.inOrder(orderPrettyPrint);
 console.log("\n");
 
-console.log("Post-order keys:");
+console.log("Post-order values:");
 tree.postOrder(orderPrettyPrint);
 console.log();
 lineBreak();
@@ -71,19 +71,19 @@ tree.rebalance();
 tree.prettyPrint();
 console.log(`\nTree is balanced: ${tree.isBalanced()}\n`);
 
-console.log("Level-order keys:");
+console.log("Level-order values:");
 tree.recursiveLevelOrder(orderPrettyPrint);
 console.log("\n");
 
-console.log("Pre-order keys:");
+console.log("Pre-order values:");
 tree.preOrder(orderPrettyPrint);
 console.log("\n");
 
-console.log("In-order keys:");
+console.log("In-order values:");
 tree.inOrder(orderPrettyPrint);
 console.log("\n");
 
-console.log("Post-order keys:");
+console.log("Post-order values:");
 tree.postOrder(orderPrettyPrint);
 console.log();
 lineBreak();

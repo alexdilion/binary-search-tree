@@ -24,19 +24,19 @@ export default class Tree {
         return root;
     }
 
-    insert(key, root = this.root) {
-        if (!root) return new Node(key);
+    insert(value, root = this.root) {
+        if (!root) return new Node(value);
 
-        if (root.key < key) {
-            root.right = this.insert(key, root.right);
-        } else if (root.key > key) {
-            root.left = this.insert(key, root.left);
+        if (root.value < value) {
+            root.right = this.insert(value, root.right);
+        } else if (root.value > value) {
+            root.left = this.insert(value, root.left);
         }
 
         return root;
     }
 
-    #findMinKey(root) {
+    #findMinValue(root) {
         let minNode = root;
 
         while (minNode.left) {
@@ -46,13 +46,13 @@ export default class Tree {
         return minNode;
     }
 
-    delete(key, root = this.root) {
+    delete(value, root = this.root) {
         if (!root) return root;
 
-        if (root.key < key) {
-            root.right = this.delete(key, root.right);
-        } else if (root.key > key) {
-            root.left = this.delete(key, root.left);
+        if (root.value < value) {
+            root.right = this.delete(value, root.right);
+        } else if (root.value > value) {
+            root.left = this.delete(value, root.left);
         } else {
             if (!root.left) {
                 const tmp = root.right;
@@ -64,9 +64,9 @@ export default class Tree {
                 return tmp;
             }
 
-            let tmp = this.#findMinKey(root.right);
-            root.key = tmp.key;
-            root.right = this.delete(tmp.key, root.right);
+            let tmp = this.#findMinValue(root.right);
+            root.value = tmp.value;
+            root.right = this.delete(tmp.value, root.right);
 
             return root;
         }
@@ -74,13 +74,13 @@ export default class Tree {
         return root;
     }
 
-    find(key, root = this.root) {
-        if (!root || root.key === key) return root;
+    find(value, root = this.root) {
+        if (!root || root.value === value) return root;
 
-        if (root.key < key) {
-            root = this.find(key, root.right);
+        if (root.value < value) {
+            root = this.find(value, root.right);
         } else {
-            root = this.find(key, root.left);
+            root = this.find(value, root.left);
         }
 
         return root;
@@ -95,65 +95,65 @@ export default class Tree {
 
     iterativeLevelOrder(callback = null) {
         const nodeQueue = [this.root];
-        const keys = [];
+        const values = [];
 
         while (nodeQueue.length !== 0) {
             const node = nodeQueue.shift();
 
-            callback ? callback(node) : keys.push(node.key);
+            callback ? callback(node) : values.push(node.value);
 
             nodeQueue.push(...this.#getChildNodes(node));
         }
 
-        if (!callback) return keys;
+        if (!callback) return values;
     }
 
-    recursiveLevelOrder(callback = null, root = this.root, queue = [], keys = []) {
+    recursiveLevelOrder(callback = null, root = this.root, queue = [], values = []) {
         if (!root) return;
 
-        callback ? callback(root) : keys.push(root.key);
+        callback ? callback(root) : values.push(root.value);
 
         queue.push(...this.#getChildNodes(root));
 
         // a shift on an empty queue returns undefined causing the function
         // to assign root back to its default value -> infinite recursive loop
-        this.recursiveLevelOrder(callback, queue.shift() ?? null, queue, keys);
+        this.recursiveLevelOrder(callback, queue.shift() ?? null, queue, values);
 
-        if (!callback) return keys;
+        if (!callback) return values;
     }
 
-    preOrder(callback = null, root = this.root, keys = []) {
+    preOrder(callback = null, root = this.root, values = []) {
         if (!root) return;
 
-        callback ? callback(root) : keys.push(root.key);
+        callback ? callback(root) : values.push(root.value);
 
-        this.preOrder(callback, root.left, keys);
-        this.preOrder(callback, root.right, keys);
+        this.preOrder(callback, root.left, values);
+        this.preOrder(callback, root.right, values);
 
-        if (!callback) return keys;
+        if (!callback) return values;
     }
 
-    inOrder(callback = null, root = this.root, keys = []) {
+    inOrder(callback = null, root = this.root, values = []) {
         if (!root) return;
 
-        this.inOrder(callback, root.left, keys);
+        this.inOrder(callback, root.left, values);
 
-        callback ? callback(root) : keys.push(root.key);
+        callback ? callback(root) : values.push(root.value);
 
-        this.inOrder(callback, root.right, keys);
+        this.inOrder(callback, root.right, values);
 
-        if (!callback) return keys;
+        if (!callback) return values;
     }
 
-    postOrder(callback = null, root = this.root, keys = []) {
+    postOrder(callback = null, root = this.root, values = []) {
         if (!root) return;
 
-        this.postOrder(callback, root.left, keys);
-        this.postOrder(callback, root.right, keys);
+        this.postOrder(callback, root.left, values);
+        this.postOrder(callback, root.right, values);
 
-        callback ? callback(root) : keys.push(root.key);
+        callback ? callback(root) : values.push(root.value);
 
-        if (!callback) return keys;
+        if (!callback) return values;
     }
 
     height(root = this.root) {
@@ -169,9 +169,9 @@ export default class Tree {
         if (!target || !target) {
             return -1;
         } else {
-            if (root.key === target.key) return 0;
+            if (root.value === target.value) return 0;
 
-            if (root.key > target.key) {
+            if (root.value > target.value) {
                 depth = this.depth(target, root.left, depth) + 1;
             } else {
                 depth = this.depth(target, root.right, depth) + 1;
@@ -199,8 +199,8 @@ export default class Tree {
     }
 
     rebalance() {
-        const keys = this.inOrder();
-        this.root = this.buildTree(keys);
+        const values = this.inOrder();
+        this.root = this.buildTree(values);
     }
 
     prettyPrint(root = this.root, prefix = "", isLeft = true) {
@@ -212,7 +212,7 @@ export default class Tree {
             this.prettyPrint(root.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
         }
 
-        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${root.key}`);
+        console.log(`${prefix}${isLeft ? "└── " : "┌── "}${root.value}`);
 
         if (root.left) {
             this.prettyPrint(root.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
