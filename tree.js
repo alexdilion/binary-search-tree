@@ -100,55 +100,57 @@ export default class Tree {
         while (nodeQueue.length !== 0) {
             const node = nodeQueue.shift();
 
-            if (callback) {
-                callback(node);
-            } else {
-                keys.push(node.key);
-            }
+            callback ? callback(node) : keys.push(node.key);
 
             nodeQueue.push(...this.#getChildNodes(node));
         }
 
-        return keys;
+        if (!callback) return keys;
     }
 
-    recursiveLevelOrder(root, callback = null, queue = [], values = []) {
+    recursiveLevelOrder(root, callback = null, queue = [], keys = []) {
         if (!root) return;
 
-        if (callback) {
-            callback(root);
-        } else {
-            values.push(root.key);
-        }
+        callback ? callback(root) : keys.push(root.key);
 
         queue.push(...this.#getChildNodes(root));
-        this.recursiveLevelOrder(queue.shift(), callback, queue, values);
+        this.recursiveLevelOrder(queue.shift(), callback, queue, keys);
 
-        return values;
+        if (!callback) return keys;
     }
 
-    preOrder(root, callback) {
+    preOrder(root, callback = null, keys = []) {
         if (!root) return;
 
-        callback(root);
-        this.preOrder(root.left, callback);
-        this.preOrder(root.right, callback);
+        callback ? callback(root) : keys.push(root.key);
+
+        this.preOrder(root.left, callback, keys);
+        this.preOrder(root.right, callback, keys);
+
+        if (!callback) return keys;
     }
 
-    inOrder(root, callback) {
+    inOrder(root, callback = null, keys = []) {
         if (!root) return;
 
-        this.inOrder(root.left, callback);
-        callback(root);
-        this.inOrder(root.right, callback);
+        this.inOrder(root.left, callback, keys);
+
+        callback ? callback(root) : keys.push(root.key);
+
+        this.inOrder(root.right, callback, keys);
+
+        if (!callback) return keys;
     }
 
-    postOrder(root, callback) {
+    postOrder(root, callback = null, keys = []) {
         if (!root) return;
 
-        this.postOrder(root.left, callback);
-        this.postOrder(root.right, callback);
-        callback(root);
+        this.postOrder(root.left, callback, keys);
+        this.postOrder(root.right, callback, keys);
+
+        callback ? callback(root) : keys.push(root.key);
+
+        if (!callback) return keys;
     }
 
     height(root) {
