@@ -196,8 +196,7 @@ export default class Tree {
     }
 
     rebalance() {
-        const values = this.inOrder();
-        this.root = this.buildTree(values);
+        this.root = this.buildTree(this.inOrder());
     }
 
     prettyPrint(root = this.root, prefix = "", isLeft = true) {
