@@ -4,22 +4,22 @@ import Node from "./node.js";
 
 export default class Tree {
     constructor(array = []) {
-        this.root = this.buildTree(array);
+        this.root = this.#buildTree(array);
     }
 
     #deduplicateAndSort(array) {
         return [...new Set(array)].sort((a, b) => a - b);
     }
 
-    buildTree(array) {
+    #buildTree(array) {
         if (array.length === 0) return null;
 
         const data = this.#deduplicateAndSort(array);
         const mid = Math.floor(data.length / 2);
 
         const root = new Node(data[mid]);
-        root.left = this.buildTree(data.slice(0, mid));
-        root.right = this.buildTree(data.slice(mid + 1));
+        root.left = this.#buildTree(data.slice(0, mid));
+        root.right = this.#buildTree(data.slice(mid + 1));
 
         return root;
     }
@@ -197,7 +197,7 @@ export default class Tree {
     }
 
     rebalance() {
-        this.root = this.buildTree(this.inOrder());
+        this.root = this.#buildTree(this.inOrder());
     }
 
     prettyPrint(root = this.root, prefix = "", isLeft = true) {
