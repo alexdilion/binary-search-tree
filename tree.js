@@ -112,13 +112,19 @@ export default class Tree {
         return keys;
     }
 
-    recursiveLevelOrder(root, callback, queue = []) {
+    recursiveLevelOrder(root, callback = null, queue = [], values = []) {
         if (!root) return;
 
-        callback(root);
+        if (callback) {
+            callback(root);
+        } else {
+            values.push(root.key);
+        }
 
         queue.push(...this.#getChildNodes(root));
-        this.recursiveLevelOrder(queue.shift(), callback, queue);
+        this.recursiveLevelOrder(queue.shift(), callback, queue, values);
+
+        return values;
     }
 
     preOrder(root, callback) {
